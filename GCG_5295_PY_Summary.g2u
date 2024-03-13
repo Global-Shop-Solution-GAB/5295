@@ -1,0 +1,1142 @@
+Program.Sub.ScreenSU.Start
+Gui.SS_Form1..create
+Gui.SS_Form1..caption("Payroll Summary by Date Range")
+Gui.SS_Form1..size(4740,1770)
+Gui.SS_Form1..position(0,0)
+Gui.SS_Form1..forecolor(0)
+Gui.SS_Form1..BackColor(-2147483633)
+Gui.SS_Form1..maxbutton(False)
+Gui.SS_Form1..minbutton(False)
+Gui.SS_Form1..mousepointer(0)
+Gui.SS_Form1..sizeable(False)
+Gui.SS_Form1..event(UnLoad,ss_form1_unload)
+Gui.SS_Form1..MinX(0)
+Gui.SS_Form1..MinY(0)
+Gui.SS_Form1.lbl1.create(label,"Start Date",True,900,195,1,105,120,True,0,Arial,8,-2147483633,0)
+Gui.SS_Form1.lbl1.LabelStretch(True)
+Gui.SS_Form1.lbl1.setinternationalid(421406)
+Gui.SS_Form1.cmd1_Print.create(button)
+Gui.SS_Form1.cmd1_Print.Caption("Print")
+Gui.SS_Form1.cmd1_Print.size(1005,360)
+Gui.SS_Form1.cmd1_Print.position(105,795)
+Gui.SS_Form1.cmd1_Print.setinternationalid(452800)
+Gui.SS_Form1.cmd1_Print.event(Click,cmd1_print_click)
+Gui.SS_Form1.cmd1_Print.tabstop(True)
+Gui.SS_Form1.cmd1_Print.tabindex(2)
+Gui.SS_Form1.dtpStart.Create(DatePicker)
+Gui.SS_Form1.dtpStart.Size(1800,345)
+Gui.SS_Form1.dtpStart.Position(105,330)
+Gui.SS_Form1.dtpStart.TabStop(True)
+Gui.SS_Form1.dtpStart.TabIndex(1)
+Gui.SS_Form1.dtpEnd.Create(DatePicker)
+Gui.SS_Form1.dtpEnd.Size(1800,345)
+Gui.SS_Form1.dtpEnd.Position(2235,330)
+Gui.SS_Form1.dtpEnd.TabStop(True)
+Gui.SS_Form1.dtpEnd.TabIndex(1)
+Gui.SS_Form1.lbl2.Create(Label,"End Date",True,900,195,1,2235,120,True,0,"Arial",8,-2147483633,0)
+Gui.SS_Form1.lbl2.SetInternationalID(421406)
+Program.Sub.ScreenSU.End
+
+Program.Sub.Preflight.Start
+Variable.Global.lBIRunID.Declare(Long,0)
+Variable.Global.lLogID.Declare(Long,0)
+Variable.UDT.uHdr.Define("lBIRunID",Long)
+Variable.UDT.uHdr.Define("sEmployee",String,"Employee")
+Variable.UDT.uHdr.Define("sName",String,"Name")
+Variable.uGlobal.uHdr.Declare("uHdr")
+Variable.UDT.uEarnings1.Define("lBIRunID",Long)
+Variable.UDT.uEarnings1.Define("sEmployee",String,"Employee")
+Variable.UDT.uEarnings1.Define("Earnings",String,"Earnings")
+Variable.UDT.uEarnings1.Define("EC_Desc",String,"")
+Variable.UDT.uEarnings1.Define("fReg_Dollars",Float,"Reg_Dollars")
+Variable.UDT.uEarnings1.Define("fOt_Dollars",Float,"Ot_Dollars")
+Variable.UDT.uEarnings1.Define("fDbl_Dollars",Float,"Dbl_Dollars")
+Variable.UDT.uEarnings1.Define("fReg_Hours",Float,"Reg_Hours")
+Variable.UDT.uEarnings1.Define("fOt_Hours",Float,"Ot_Hours")
+Variable.UDT.uEarnings1.Define("fDbl_Hours",Float,"Dbl_Hours")
+'Variable.UDT.uEarnings1.Define("fCheck_Number",Float,"Check_Number")
+Variable.UDT.uEarnings1.Define("fRate_1",Float,"Rate_1")
+Variable.uGlobal.uEarnings1.Declare("uEarnings1")
+Variable.UDT.uEarnings2.Define("lBIRunID",Long)
+Variable.UDT.uEarnings2.Define("sEmployee",String,"Employee")
+Variable.UDT.uEarnings2.Define("fGross_Dollars",Float,"Gross_Dollars")
+'Variable.UDT.uEarnings2.Define("fCheck_Number",Float,"Check_Number")
+Variable.UDT.uEarnings2.Define("Earnings",String,"Earnings")
+Variable.UDT.uEarnings2.Define("EC_Desc",String,"")
+Variable.UDT.uEarnings2.Define("fReg_Dollars",Float,"Reg_Dollars")
+Variable.UDT.uEarnings2.Define("fOt_Dollars",Float,"Ot_Dollars")
+Variable.UDT.uEarnings2.Define("fDbl_Dollars",Float,"Dbl_Dollars")
+Variable.UDT.uEarnings2.Define("fReg_Hours",Float,"Reg_Hours")
+Variable.UDT.uEarnings2.Define("fOt_Hours",Float,"Ot_Hours")
+Variable.UDT.uEarnings2.Define("fDbl_Hours",Float,"Dbl_Hours")
+Variable.UDT.uEarnings2.Define("fRate_1",Float,"Rate_1")
+Variable.uGlobal.uEarnings2.Declare("uEarnings2")
+Variable.UDT.uDeduction.Define("sEmployee",String,"Employee")
+Variable.UDT.uDeduction.Define("fDeduct_1",Float,"Deduct_1")
+Variable.UDT.uDeduction.Define("fDeduct_2",Float,"Deduct_2")
+Variable.UDT.uDeduction.Define("fDeduct_3",Float,"Deduct_3")
+Variable.UDT.uDeduction.Define("fDeduct_4",Float,"Deduct_4")
+Variable.UDT.uDeduction.Define("fDeduct_5",Float,"Deduct_5")
+Variable.UDT.uDeduction.Define("fDeduct_6",Float,"Deduct_6")
+Variable.UDT.uDeduction.Define("fDeduct_7",Float,"Deduct_7")
+Variable.UDT.uDeduction.Define("fDeduct_8",Float,"Deduct_8")
+Variable.UDT.uDeduction.Define("fDeduct_9",Float,"Deduct_9")
+Variable.UDT.uDeduction.Define("fDeduct_10",Float,"Deduct_10")
+Variable.UDT.uDeduction.Define("fDeduct_11",Float,"Deduct_11")
+Variable.UDT.uDeduction.Define("fDeduct_12",Float,"Deduct_12")
+Variable.UDT.uDeduction.Define("fDeduct_13",Float,"Deduct_13")
+Variable.UDT.uDeduction.Define("fDeduct_14",Float,"Deduct_14")
+Variable.UDT.uDeduction.Define("fDeduct_15",Float,"Deduct_15")
+Variable.UDT.uDeduction.Define("fDeduct_16",Float,"Deduct_16")
+Variable.UDT.uDeduction.Define("fDeduct_17",Float,"Deduct_17")
+Variable.UDT.uDeduction.Define("fDeduct_18",Float,"Deduct_18")
+Variable.UDT.uDeduction.Define("fDeduct_19",Float,"Deduct_19")
+Variable.UDT.uDeduction.Define("fDeduct_20",Float,"Deduct_20")
+Variable.UDT.uDeduction.Define("fDeduct_21",Float,"Deduct_21")
+Variable.UDT.uDeduction.Define("fDeduct_22",Float,"Deduct_22")
+Variable.UDT.uDeduction.Define("lCheck_Code",Long,"")
+Variable.UDT.uPreTax.Define("sEmployee",String,"Employee")
+Variable.UDT.uPreTax.Define("fPre_Tax_Deduct_1",Float,"Pre_Tax_Deduct_1")
+Variable.UDT.uPreTax.Define("fPre_Tax_Deduct_2",Float,"Pre_Tax_Deduct_2")
+Variable.UDT.uPreTax.Define("fPre_Tax_Deduct_3",Float,"Pre_Tax_Deduct_3")
+Variable.UDT.uPreTax.Define("fPre_Tax_Deduct_4",Float,"Pre_Tax_Deduct_4")
+Variable.UDT.uPreTax.Define("fPre_Tax_Deduct_5",Float,"Pre_Tax_Deduct_5")
+Variable.UDT.uPreTax.Define("fPre_Tax_Deduct_6",Float,"Pre_Tax_Deduct_6")
+Variable.UDT.uPreTax.Define("fPre_Tax_Deduct_7",Float,"Pre_Tax_Deduct_7")
+Variable.UDT.uPreTax.Define("fPre_Tax_Deduct_8",Float,"Pre_Tax_Deduct_8")
+Variable.UDT.uPreTax.Define("fPre_Tax_Deduct_9",Float,"Pre_Tax_Deduct_9")
+Variable.UDT.uPreTax.Define("fPre_Tax_Deduct_10",Float,"Pre_Tax_Deduct_10")
+Variable.UDT.uPreTax.Define("fIra_Amount",Float,"Ira_Amount")
+Variable.UDT.uPreTax.Define("lCheck_Code",Long,"")
+Variable.UDT.uGarnish.Define("sEmployee",String,"Employee")
+Variable.UDT.uGarnish.Define("fGarn_1",Float,"Garn_1")
+Variable.UDT.uGarnish.Define("fGarn_2",Float,"Garn_2")
+Variable.UDT.uGarnish.Define("fGarn_3",Float,"Garn_3")
+Variable.UDT.uGarnish.Define("fGarn_4",Float,"Garn_4")
+Variable.UDT.uGarnish.Define("fGarn_5",Float,"Garn_5")
+Variable.UDT.uGarnish.Define("lCheck_Code",Long,"")
+Variable.UDT.uTaxes.Define("sEmployee",String,"Employee")
+Variable.UDT.uTaxes.Define("fFederal",Float,"Federal")
+Variable.UDT.uTaxes.Define("fLocal1",Float,"Local1")
+Variable.UDT.uTaxes.Define("fLocal2",Float,"Local2")
+Variable.UDT.uTaxes.Define("fState",Float,"State")
+Variable.UDT.uTaxes.Define("fFica",Float,"Fica")
+Variable.UDT.uTaxes.Define("fMedi",Float,"Medi")
+Variable.UDT.uTaxes.Define("sLocal1Code",String,"Local_1_code")
+Variable.UDT.uTaxes.Define("sLocal2Code",String,"Local_2_code")
+Variable.UDT.uTaxes.Define("sStateCode",String,"State_Code")
+Variable.UDT.uTaxes.Define("lCheck_Code",Long,"")
+Variable.uGlobal.uDeduction.Declare("uDeduction")
+Variable.uGlobal.uTaxes.Declare("uTaxes")
+Variable.uGlobal.uGarnish.Declare("uGarnish")
+Variable.uGlobal.uPreTax.Declare("uPreTax")
+Variable.UDT.uDed1.Define("lBIRunID",Long)
+Variable.UDT.uDed1.Define("sDeductions1",String,"Deductions1")
+Variable.UDT.uDed1.Define("sDeductions2",String,"Deductions2")
+Variable.UDT.uDed1.Define("sDeductions3",String,"Deductions3")
+Variable.UDT.uDed1.Define("sDeductions4",String,"Deductions4")
+Variable.UDT.uDed1.Define("sDeductions5",String,"Deductions5")
+Variable.uGlobal.uDed1.Declare("uDed1")
+Variable.UDT.uDed6.Define("lBIRunID",Long)
+Variable.UDT.uDed6.Define("sDeductions1",String,"Deductions1")
+Variable.UDT.uDed6.Define("sDeductions2",String,"Deductions2")
+Variable.UDT.uDed6.Define("sDeductions3",String,"Deductions3")
+Variable.UDT.uDed6.Define("sDeductions4",String,"Deductions4")
+Variable.UDT.uDed6.Define("sDeductions5",String,"Deductions5")
+Variable.uGlobal.uDed6.Declare("uDed6")
+Variable.UDT.uDed11.Define("lBIRunID",Long)
+Variable.UDT.uDed11.Define("sDeductions1",String,"Deductions1")
+Variable.UDT.uDed11.Define("sDeductions2",String,"Deductions2")
+Variable.UDT.uDed11.Define("sDeductions3",String,"Deductions3")
+Variable.UDT.uDed11.Define("sDeductions4",String,"Deductions4")
+Variable.UDT.uDed11.Define("sDeductions5",String,"Deductions5")
+Variable.uGlobal.uDed11.Declare("uDed11")
+Variable.UDT.uDed16.Define("lBIRunID",Long)
+Variable.UDT.uDed16.Define("sDeductions1",String,"Deductions1")
+Variable.UDT.uDed16.Define("sDeductions2",String,"Deductions2")
+Variable.UDT.uDed16.Define("sDeductions3",String,"Deductions3")
+Variable.UDT.uDed16.Define("sDeductions4",String,"Deductions4")
+Variable.UDT.uDed16.Define("sDeductions5",String,"Deductions5")
+Variable.uGlobal.uDed16.Declare("uDed16")
+Variable.UDT.uDeds.Define("lBIRunID",Long)
+Variable.UDT.uDeds.Define("sDeductions1",String,"Deductions1")
+Variable.UDT.uDeds.Define("sDeductions2",String,"Deductions2")
+Variable.UDT.uDeds.Define("sDeductions3",String,"Deductions3")
+Variable.UDT.uDeds.Define("sDeductions4",String,"Deductions4")
+Variable.UDT.uDeds.Define("sDeductions5",String,"Deductions5")
+Variable.uGlobal.uDeds.Declare("uDeds")
+Variable.UDT.uPreTax1.Define("lBIRunID",Long)
+Variable.UDT.uPreTax1.Define("sDeductions1",String,"Deductions1")
+Variable.UDT.uPreTax1.Define("sDeductions2",String,"Deductions2")
+Variable.UDT.uPreTax1.Define("sDeductions3",String,"Deductions3")
+Variable.UDT.uPreTax1.Define("sDeductions4",String,"Deductions4")
+Variable.UDT.uPreTax1.Define("sDeductions5",String,"Deductions5")
+Variable.uGlobal.uPreTax1.Declare("uPreTax1")
+Variable.UDT.uPreTax2.Define("lBIRunID",Long)
+Variable.UDT.uPreTax2.Define("sDeductions1",String,"Deductions1")
+Variable.UDT.uPreTax2.Define("sDeductions2",String,"Deductions2")
+Variable.UDT.uPreTax2.Define("sDeductions3",String,"Deductions3")
+Variable.UDT.uPreTax2.Define("sDeductions4",String,"Deductions4")
+Variable.UDT.uPreTax2.Define("sDeductions5",String,"Deductions5")
+Variable.UDT.uPreTax.Define("lCheck_Code",Long,"Check_Code")
+Variable.uGlobal.uPreTax2.Declare("uPreTax2")
+Variable.UDT.uGarn.Define("lBIRunID",Long)
+Variable.UDT.uGarn.Define("sDeductions1",String,"Deductions1")
+Variable.UDT.uGarn.Define("sDeductions2",String,"Deductions2")
+Variable.UDT.uGarn.Define("sDeductions3",String,"Deductions3")
+Variable.UDT.uGarn.Define("sDeductions4",String,"Deductions4")
+Variable.UDT.uGarn.Define("sDeductions5",String,"Deductions5")
+Variable.uGlobal.uGarn.Declare("uGarn")
+Variable.UDT.uEmp.Define("sEmployee",String,"Employee")
+Variable.uGlobal.uEmp.Declare("uEmp")
+Variable.UDT.uAllD.Define("lBIRunID",Long)
+Variable.UDT.uAllD.Define("sEmployee",String)
+Variable.UDT.uAllD.Define("sDeduction",String)
+Variable.UDT.uAllD.Define("fAmount",Float)
+Variable.UDT.uAllD.Define("lType",Long)
+Variable.uGlobal.uAllD.Declare("uAllD")
+Variable.UDT.uAllT.Define("lBIRunID",Long)
+Variable.UDT.uAllT.Define("sEmployee",String)
+Variable.UDT.uAllT.Define("sTax",String)
+Variable.UDT.uAllT.Define("fAmount",Float)
+Variable.UDT.uAllT.Define("lType",Long)
+Variable.uGlobal.uAllT.Declare("uAllT")
+Variable.UDT.uAllP.Define("lBIRunID",Long)
+Variable.UDT.uAllP.Define("sEmployee",String)
+Variable.UDT.uAllP.Define("sPreTax",String)
+Variable.UDT.uAllP.Define("fAmount",Float)
+Variable.UDT.uAllP.Define("lType",Long)
+Variable.uGlobal.uAllP.Declare("uAllP")
+Variable.UDT.uAllG.Define("lBIRunID",Long)
+Variable.UDT.uAllG.Define("sEmployee",String)
+Variable.UDT.uAllG.Define("sGarnish",String)
+Variable.UDT.uAllG.Define("fAmount",Float)
+Variable.UDT.uAllG.Define("lType",Long)
+Variable.uGlobal.uAllG.Declare("uAllG")
+Variable.Global.sDate.Declare(String)
+Variable.UDT.uECDesc.Define("ECCode",String,"Pay_Category")
+Variable.UDT.uECDesc.Define("EcDesc",String,"Descr")
+Variable.uGlobal.uECDesc.Declare("uECDesc")
+Variable.UDT.uDedCodeDesc.Define("iCode",Long,"DED_CODE")
+Variable.UDT.uDedCodeDesc.Define("sDescr",String,"DESCR")
+Variable.uGlobal.uDedCodeDesc.Declare("uDedCodeDesc")
+Variable.UDT.uGarnDesc.Define("iCode",Long,"GARN_CODE")
+Variable.UDT.uGarnDesc.Define("sDescr",String,"DESCR")
+Variable.uGlobal.uGarnDesc.Declare("uGarnDesc")
+Variable.UDT.uPreTaxDesc.Define("iCode",Long,"DED_CODE")
+Variable.UDT.uPreTaxDesc.Define("sDescr",String,"DESCR")
+Variable.uGlobal.uPreTaxDesc.Declare("uPreTaxDesc")
+Variable.Global.iYear.Declare(Long,0)
+
+v.Global.iRptID.Declare
+v.Global.dStart.Declare
+v.Global.dEnd.Declare
+Program.Sub.Preflight.End
+
+Program.Sub.Main.Start
+F.Intrinsic.Control.SetErrorHandler("Main_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.uGlobal.uEarnings1.Redim(-1,-1)
+V.uGlobal.uEarnings2.Redim(-1,-1)
+V.uGlobal.uDeduction.Redim(-1,-1)
+V.uGlobal.uDed1.Redim(-1,-1)
+V.uGlobal.uDed6.Redim(-1,-1)
+V.uGlobal.uDed11.Redim(-1,-1)
+V.uGlobal.uDed16.Redim(-1,-1)
+V.uGlobal.uPreTax1.Redim(-1,-1)
+V.uGlobal.uPreTax2.Redim(-1,-1)
+V.uGlobal.uGarn.Redim(-1,-1)
+V.uGlobal.uDeds.Redim(-1,-1)
+V.uGlobal.uEmp.Redim(-1,-1)
+V.uGlobal.uAllD.Redim(-1,-1)
+V.uGlobal.uAllG.Redim(-1,-1)
+V.uGlobal.uAllP.Redim(-1,-1)
+V.uGlobal.uAllT.Redim(-1,-1)
+'open connection
+F.ODBC.connection!conx.OpenConnection(V.Ambient.PDSN,V.Ambient.puser,V.Ambient.PPass)
+gui.SS_Form1..applytranslation
+
+gui.SS_Form1..show
+F.Intrinsic.Control.Label("Main_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: BIR_PY_Summary_Date.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(Ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Main.End
+
+Program.Sub.cmd1_print_click.Start
+F.Intrinsic.Control.SetErrorHandler("cmd1_print_click_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+'Disappear the screen
+gui.SS_Form1..Visible(False)
+
+f.Intrinsic.UI.InvokeWaitDialog("Processing...")
+
+v.Global.dStart.Set(v.Screen.SS_Form1!dtpStart.Value)
+v.Global.dEnd.Set(v.Screen.SS_Form1!dtpEnd.Value)
+
+F.Global.BI.GetRunID(V.Global.lBIRunID)
+f.Global.BI.GetIDFromName("GCG_5295_Payroll_Summary_Date.rpt",True,v.Global.iRptID)
+F.Global.BI.StartLogging(V.Global.lBIRunID,V.Global.iRptID,-1,"",V.Global.lLogID)
+
+
+V.Global.sDate.Set(V.Screen.SS_Form1!dtpEnd.Value)
+F.Intrinsic.Date.Year(v.Global.sDate,v.Global.iYear)
+
+F.Intrinsic.Control.CallSub(Get_earnings)
+F.Intrinsic.Control.CallSub(Get_deductions)
+F.Intrinsic.Control.CallSub(Get_employee)
+F.Intrinsic.Control.CallSub(Get_garnishments)
+F.Intrinsic.Control.CallSub(Get_pretax)
+F.Intrinsic.Control.CallSub(Get_taxes)
+F.Intrinsic.Control.CallSub(Build_udts)
+F.Intrinsic.Control.CallSub(Add_runid)
+F.Intrinsic.Control.CallSub(Writezfile)
+
+F.Global.BI.StopLogging(V.Global.lLogid)
+f.Intrinsic.UI.CloseWaitDialog
+
+F.Intrinsic.Control.CallSub(Callbi)
+
+F.Intrinsic.Control.CallSub(Ss_form1_unload)
+
+F.Intrinsic.Control.Label("cmd1_print_click_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: BIR_PY_Summary_Date.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(Ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+Program.Sub.cmd1_print_click.End
+
+Program.Sub.ss_form1_unload.Start
+F.Intrinsic.Control.SetErrorHandler("ss_form1_unload_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+F.ODBC.Connection!conx.Close
+F.Intrinsic.Control.End
+
+F.Intrinsic.Control.Label("ss_form1_unload_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: BIR_PY_Summary_Date.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.End
+
+Function.Intrinsic.Control.EndIf
+Program.Sub.ss_form1_unload.End
+
+Program.Sub.CallBI.Start
+F.Intrinsic.Control.SetErrorHandler("CallBI_Err")
+F.Intrinsic.Control.ClearErrors
+V.Local.sError.Declare(String)
+V.Local.sParams.Declare(String)
+V.Local.sValues.Declare(String)
+V.Local.iRet.Declare(Long)
+V.Local.sParams.set("PayDate")
+v.Local.sStart.Declare
+v.Local.sEnd.Declare
+
+f.Intrinsic.String.Format(v.Global.dStart,"MM-DD-YYYY",v.Local.sStart)
+f.Intrinsic.String.Format(v.Global.dEnd,"MM-DD-YYYY",v.Local.sEnd)
+f.Intrinsic.String.Build("From {0} To {1}",v.Local.sStart,v.Local.sEnd,v.Local.sValues)
+
+F.Global.BI.RunReportPreProcessor(V.Global.lBIRunID,V.Global.lLogID,V.Local.sParams,V.Local.sValues,"",-1,True,"",-1,"",-1,"","",V.Local.iRet)
+F.Intrinsic.Control.ExitSub
+F.Intrinsic.Control.Label("CallBI_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: BIR_PY_Summary_Date.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(Ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+Program.Sub.CallBI.End
+
+Program.Sub.Get_Earnings.Start
+F.Intrinsic.Control.SetErrorHandler("Get_Earnings_Err")
+F.Intrinsic.Control.ClearErrors
+V.Local.sError.Declare(String)
+V.Local.sSql.Declare(String)
+v.Local.i.Declare(Long)
+
+F.Intrinsic.String.Build("select b.employee, earnings, rate_1, Sum((reg_dollars_1 + reg_dollars_2 + reg_dollars_3)) as reg_dollars, Sum((ot_dollars_1 + ot_dollars_2 + ot_dollars_3)) as ot_dollars,Sum((dbl_dollars_1+dbl_dollars_2+dbl_dollars_3)) as dbl_dollars, Sum((hours_r_1 + hours_r_2 + hours_R_3)) as reg_hours,Sum((hours_o_1+hours_o_2+hours_o_3)) as ot_hours,Sum((hours_d_1+hours_d_2+hours_d_3)) as dbl_hours from v_employee_mstr a join v_pay_hist_earn b on a.employee = b.employee where pay_type <> 'S' and date_history between '{0}' and '{1}' and check_number not in (Select Check_Number From V_Pay_Hist_Ded Where date_history between '{0}' and '{1}' And VOID_CODE = 'Y' OR VOID_CODE = 'V') group by b.employee,earnings,rate_1 order by b.employee",v.Global.dStart.PervasiveDate,V.Global.dEnd.PervasiveDate,V.Local.sSql)
+F.ODBC.Connection!conx.OpenLocalRecordsetRW("rstEarn1",V.Local.sSql)
+F.Intrinsic.Variable.LoadUDTFromRecordset("conx","rstEarn1","V.uGlobal.uEarnings1",False,0)
+F.ODBC.conx!rstEarn1.Close
+
+F.Intrinsic.String.Build("select b.employee, earnings, rate_1,sum((reg_dollars_1 + reg_dollars_2 + reg_dollars_3 + ot_dollars_1 + ot_dollars_2 + ot_dollars_3  + dbl_dollars_1+dbl_dollars_2+dbl_dollars_3)) as gross_dollars, sum((reg_dollars_1 + reg_dollars_2 + reg_dollars_3)) as reg_dollars, sum((ot_dollars_1 + ot_dollars_2 + ot_dollars_3)) as ot_dollars,sum((dbl_dollars_1+dbl_dollars_2+dbl_dollars_3)) as dbl_dollars, sum((hours_r_1 + hours_r_2 + hours_R_3)) as reg_hours, sum((hours_o_1+hours_o_2+hours_o_3)) as ot_hours,sum((hours_d_1+hours_d_2+hours_d_3)) as dbl_hours from v_employee_mstr a join v_pay_hist_earn b on a.employee = b.employee where pay_type = 'S' and date_history between '{0}' and '{1}' and check_number not in (Select Check_Number From V_Pay_Hist_Ded 	Where date_history between '{0}' and '{1}' And VOID_CODE = 'Y' OR VOID_CODE = 'V') group by b.employee,earnings,rate_1 order by b.employee",v.Global.dStart.PervasiveDate,V.Global.dEnd.PervasiveDate,V.Local.sSql) 
+F.ODBC.Connection!conx.OpenLocalRecordsetRW("rstEarn2",V.Local.sSql)
+F.Intrinsic.Variable.LoadUDTFromRecordset("conx","rstEarn2","V.uGlobal.uEarnings2",False,0)
+F.ODBC.conx!rstEarn2.Close
+
+'load Earnings Codes and their Desc. 
+F.Intrinsic.String.Build("Select Right('00' + Rtrim(Pay_Category),2)As Pay_category,Descr From Payroll_Pay_cats Where year = '{0}'",v.Global.iYear,v.Local.sSql)
+F.ODBC.Connection!conx.OpenLocalRecordsetRO("rstEC",v.Local.sSql) 
+Function.Intrinsic.Control.If(v.ODBC.conx!rstEC.EOF,<>,True) 
+	f.Intrinsic.Variable.LoadUDTFromRecordset("conX","rstEC","v.uglobal.uECDesc",False,10)
+Function.Intrinsic.Control.EndIf
+f.ODBC.conx!rstEC.Close 
+F.Intrinsic.Control.For(v.Local.i,0,v.uGlobal.uECDesc.UBound,1) 
+	F.Intrinsic.Variable.UDTMultiSeekSet(v.uGlobal.uEarnings1!Earnings,v.uGlobal.uECDesc(v.Local.i)!ECCode,v.uGlobal.uEarnings1!EC_Desc,v.uGlobal.uECDesc(v.Local.i)!EcDesc) 		
+	F.Intrinsic.Variable.UDTMultiSeekSet(v.uGlobal.uEarnings2!Earnings,v.uGlobal.uECDesc(v.Local.i)!ECCode,v.uGlobal.uEarnings2!EC_Desc,v.uGlobal.uECDesc(v.Local.i)!EcDesc) 
+F.Intrinsic.Control.Next(v.Local.i) 
+F.Intrinsic.Control.ExitSub
+F.Intrinsic.Control.Label("Get_Earnings_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: BIR_PY_Summary_Date.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(Ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Get_Earnings.End
+
+Program.Sub.Get_deductions.Start
+F.Intrinsic.Control.SetErrorHandler("Get_deductions_Err")
+F.Intrinsic.Control.ClearErrors
+V.Local.sError.Declare(String)
+V.Local.sSql.Declare(String)
+V.Local.i.Declare(Long)
+v.Local.sRet.Declare(STring)
+v.Local.sTemp.Declare(String)
+V.Local.iC.Declare(Long,1)
+v.Local.iUB.Declare(Long)
+
+
+F.Intrinsic.String.Build("Select distinct employee, Sum(deduct_1) deduct_1,Sum(deduct_2) deduct_2, Sum(deduct_3) deduct_3, Sum(deduct_4) deduct_4, Sum(deduct_5) deduct_5, Sum(deduct_6) deduct_6, sum(deduct_7) deduct_7, Sum(deduct_8) deduct_8, Sum(deduct_9) deduct_9,Sum(deduct_10) deduct_10,Sum(deduct_11) deduct_11,Sum (deduct_12) Deduct_12, Sum(deduct_13) deduct_13,Sum(deduct_14) deduct_14,Sum(deduct_15) deduct_15,Sum(deduct_16) deduct_16,Sum(deduct_17) deduct_17,Sum(deduct_18) deduct_18,Sum(deduct_19) Deduct_19, Sum(deduct_20) deduct_20,Sum(deduct_21) deduct_21,Sum(deduct_22) deduct_22 from v_pay_hist_ded where date_history between '{0}' and '{1}' Group By Employee order by employee",v.Global.dStart.PervasiveDate,v.Global.dEnd.PervasiveDate,V.Local.sSql)
+F.ODBC.Connection!conx.OpenLocalRecordsetRW("rstDeduction",V.Local.sSql)
+F.Intrinsic.Variable.LoadUDTFromRecordset("conx","rstDeduction","V.uGlobal.uDeduction",False,0)
+F.ODBC.conx!rstDeduction.Close
+
+'change where we are pulling deductions from. 
+F.Intrinsic.String.Build("Select DED_CODE,DESCR FROM PAYROLL_DED_CODES WHERE YEAR = '{0}' And DED_TYPE = '1' Order by Ded_CODE ASC", v.Global.iyear,v.Local.sSql) 
+F.ODBC.Connection!conx.OpenLocalRecordsetRO("rstDedCode",v.Local.sSql) 
+Function.Intrinsic.Control.If(v.ODBC.conx!rstDedCode.EOF,=,False) 
+	F.Intrinsic.Variable.LoadUDTFromRecordset("conx","rstDedCode","v.uglobal.uDedCodeDesc",False,0)
+Function.Intrinsic.Control.EndIf
+f.ODBC.conx!rstDedCode.Close 
+'change where we are pulling deductions from for ded type 2. 
+F.Intrinsic.String.Build("Select DED_CODE,DESCR FROM PAYROLL_DED_CODES WHERE YEAR = '{0}' And DED_TYPE = '2' Order by Ded_CODE ASC", v.Global.iyear,v.Local.sSql) 
+F.ODBC.Connection!conx.OpenLocalRecordsetRO("rstDedCode",v.Local.sSql) 
+F.Intrinsic.Control.DoUntil(v.ODBC.conx!rstDedCode.EOF,=,True)
+	Function.Intrinsic.Control.If(v.uGlobal.uDedCodeDesc.UBound,=,-1)
+		v.uGlobal.udedcodes.Redim(0,0)
+		v.Local.iUB.Set(0)
+	F.Intrinsic.Control.Else 
+		f.Intrinsic.Math.Add(v.uGlobal.uDedCodeDesc.UBound,1,v.Local.iUB)
+		v.uGlobal.uDedCodeDesc.RedimPreserve(0,v.Local.iub)
+	Function.Intrinsic.Control.EndIf
+	Function.Intrinsic.Control.If(v.ODBC.conx!rstDedCode.FieldValTrim!Ded_CODE,=,1)
+		v.uGlobal.uDedCodeDesc(v.Local.iUB)!iCode.Set("21")
+	F.Intrinsic.Control.else 
+		v.uGlobal.uDedCodeDesc(v.Local.iUB)!iCode.Set("22")
+	Function.Intrinsic.Control.EndIf
+	v.uGlobal.uDedCodeDesc(v.Local.iUB)!sDescr.Set(v.ODBC.conx!rstDedCode.FieldValTrim!Descr)
+	f.ODBC.conx!rstDedCode.MoveNext
+F.Intrinsic.Control.Loop
+
+F.Intrinsic.Control.ExitSub
+F.Intrinsic.Control.Label("Get_deductions_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: BIR_PY_Summary_Date.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	Function.Intrinsic.Control.CallSub(ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+
+
+Program.Sub.Get_deductions.End
+
+Program.Sub.Get_Garnishments.Start
+F.Intrinsic.Control.SetErrorHandler("Get_Garnishments_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sSql.Declare(String)
+V.Local.i.Declare(Long)
+V.Local.iC.Declare(Long)
+
+
+F.Intrinsic.String.Build("Select distinct employee, Sum(garn_1) garn_1, Sum(garn_2) garn_2, Sum(garn_3) as garn_3, Sum(garn_4) garn_4, Sum(garn_5) garn_5 from v_pay_hist_ded where date_history between '{0}' and '{1}' Group By Employee order by employee",v.Global.dStart.PervasiveDate,v.Global.dEnd.PervasiveDate,V.Local.sSql)
+F.ODBC.Connection!conx.OpenLocalRecordsetRW("rstGarnish",V.Local.sSql)
+F.Intrinsic.Variable.LoadUDTFromRecordset("conx","rstGarnish","V.uGlobal.uGarnish",False,0)
+F.ODBC.conx!rstGarnish.Close
+
+F.Intrinsic.String.Build("Select GARN_CODE,DESCR From PAYROLL_GARN Where Year = '{0}'", v.Global.iyear,v.Local.sSql) 
+F.ODBC.Connection!conx.OpenLocalRecordsetRW("rstGarn",V.Local.sSql)
+F.Intrinsic.Variable.LoadUDTFromRecordset("conx","rstGarn","V.uGlobal.uGARNDESC",False,0)
+F.ODBC.conx!rstGarn.Close
+
+'removing unwanted data from udt
+F.Intrinsic.Variable.UDTMultiQuickSort(V.uGlobal.uGarnish!sEmployee,False,V.uGlobal.uGarnish!lCheck_Code,True)
+
+F.Intrinsic.Control.For(V.Local.i,0,V.uGlobal.uGarnish.UBound,1)
+	F.Intrinsic.Math.Add(V.Local.i,1,V.Local.iC)
+	F.Intrinsic.Control.For(V.Local.iC,V.Local.iC,V.uGlobal.uGarnish.UBound,1)
+		F.Intrinsic.Control.If(V.uGlobal.uGarnish(V.Local.i)!sEmployee,=,V.uGlobal.uGarnish(V.Local.iC)!sEmployee)
+			F.Intrinsic.Variable.UDTFlagOrdinal(V.uGlobal.uGarnish,True,V.Local.iC)
+			F.Intrinsic.Variable.UDTDeleteFlagged(V.uGlobal.uGarnish)
+		F.Intrinsic.Control.Else
+			F.Intrinsic.Control.ExitFor(V.Local.iC)
+		F.Intrinsic.Control.EndIf
+	
+	F.Intrinsic.Control.Next(V.Local.iC)
+F.Intrinsic.Control.Next(V.Local.i)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Get_Garnishments_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: BIR_PY_Summary_Date.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(Ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Get_Garnishments.End
+
+Program.Sub.Get_PreTax.Start
+F.Intrinsic.Control.SetErrorHandler("Get_PreTax_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sSql.Declare(String)
+V.Local.i.Declare(Long)
+V.Local.iC.Declare(Long)
+
+f.Intrinsic.String.Build("Select distinct employee,Sum(pre_tax_deduct_1) as pre_tax_deduct_1, Sum(pre_tax_deduct_2) aS pre_tax_deduct_2, sUM(pre_tax_deduct_3) AS pre_tax_deduct_3,sUM(pre_tax_deduct_4) AS pre_tax_deduct_4, Sum(pre_tax_deduct_5) pre_tax_deduct_5, Sum(pre_tax_deduct_6) pre_tax_deduct_6, Sum(pre_tax_deduct_7) pre_tax_deduct_7, Sum(pre_tax_deduct_8) pre_tax_deduct_8, Sum(pre_tax_deduct_9) pre_tax_deduct_9, SUm(pre_tax_deduct_10) pre_tax_deduct_10, Sum(ira_amount) IRA_AMOUNT from v_pay_hist_ded where  date_history between '{0}' and '{1}' Group By Employee order by employee",v.Global.dStart.PervasiveDate,v.Global.dEnd.PervasiveDate,V.Local.sSql)
+
+F.ODBC.Connection!conx.OpenLocalRecordsetRW("rstPreTax",V.Local.sSql)
+F.Intrinsic.Variable.LoadUDTFromRecordset("conx","rstPreTax","V.uGlobal.uPreTax",False,0)
+F.ODBC.conx!rstPreTax.Close
+
+F.Intrinsic.String.Build("Select DED_CODE,DESCR From PAYROLL_DED_CODES WHERE DED_TYPE = '0' And Year = '{0}' Order By Ded_CODE",v.Global.iYear,v.Local.sSql) 
+F.ODBC.Connection!conx.OpenLocalRecordsetRO("rst",v.Local.sSql) 
+F.Intrinsic.Variable.LoadUDTFromRecordset("conx","rst","V.uGlobal.uPreTaxDesc",False,0)
+
+'removing unwanted data from udt
+F.Intrinsic.Variable.UDTMultiQuickSort(V.uGlobal.uPreTax!sEmployee,False,V.uGlobal.uPreTax!lCheck_Code,True)
+
+F.Intrinsic.Control.For(V.Local.i,0,V.uGlobal.uPreTax.UBound,1)
+	F.Intrinsic.Math.Add(V.Local.i,1,V.Local.iC)
+	F.Intrinsic.Control.For(V.Local.iC,V.Local.iC,V.uGlobal.uPreTax.UBound,1)
+		F.Intrinsic.Control.If(V.uGlobal.uPreTax(V.Local.i)!sEmployee,=,V.uGlobal.uPreTax(V.Local.iC)!sEmployee)
+			F.Intrinsic.Variable.UDTFlagOrdinal(V.uGlobal.uPreTax,True,V.Local.iC)
+			F.Intrinsic.Variable.UDTDeleteFlagged(V.uGlobal.uPreTax)
+		F.Intrinsic.Control.Else
+			F.Intrinsic.Control.ExitFor(V.Local.iC)
+		F.Intrinsic.Control.EndIf
+	
+	F.Intrinsic.Control.Next(V.Local.iC)
+F.Intrinsic.Control.Next(V.Local.i)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Get_PreTax_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: BIR_PY_Summary_Date.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Get_PreTax.End
+
+Program.Sub.Get_Taxes.Start
+F.Intrinsic.Control.SetErrorHandler("Get_Taxes_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sSql.Declare(String)
+V.Local.i.Declare(Long)
+V.Local.iC.Declare(Long)
+
+F.Intrinsic.String.Build("Select Distinct Employee,Sum(Federal) As Federal, Sum(Local_1)As Local1,Sum(LocaL_2) as Local2,State_Code,Local_1_Code,Local_2_Code,Sum (State) As State, Sum (Fica) As Fica, Sum (Medi) As Medi From V_PAY_HIST_DED  where date_history between '{0}' and '{1}' Group By Employee,State_Code,Local_1_Code,Local_2_Code order by employee",v.Global.dStart.PervasiveDate,v.Global.dEnd.PervasiveDate,V.Local.sSql)
+
+F.ODBC.Connection!conx.OpenRecordsetRW("rstTax",V.Local.sSql)
+F.Intrinsic.Variable.LoadUDTFromRecordset("conx","rstTax","V.uGlobal.uTaxes",False,0)
+F.ODBC.conx!rstTax.Close
+'removing unwanted data from udt
+F.Intrinsic.Variable.UDTMultiQuickSort(V.uGlobal.uTaxes!sEmployee,False,V.uGlobal.uTaxes!lCheck_Code,True)
+
+F.Intrinsic.Control.For(V.Local.i,0,V.uGlobal.uTaxes.UBound,1)
+	F.Intrinsic.Math.Add(V.Local.i,1,V.Local.iC)
+	F.Intrinsic.Control.For(V.Local.iC,V.Local.iC,V.uGlobal.uTaxes.UBound,1)
+		F.Intrinsic.Control.If(V.uGlobal.uTaxes(V.Local.i)!sEmployee,=,V.uGlobal.uTaxes(V.Local.iC)!sEmployee)
+			F.Intrinsic.Variable.UDTFlagOrdinal(V.uGlobal.uTaxes,True,V.Local.iC)
+			F.Intrinsic.Variable.UDTDeleteFlagged(V.uGlobal.uTaxes)
+		F.Intrinsic.Control.Else
+			F.Intrinsic.Control.ExitFor(V.Local.iC)
+		F.Intrinsic.Control.EndIf	
+	F.Intrinsic.Control.Next(V.Local.iC)
+F.Intrinsic.Control.Next(V.Local.i)
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Get_Taxes_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: BIR_PY_Summary_Date.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(Ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Get_Taxes.End
+
+Program.Sub.Get_Employee.Start
+F.Intrinsic.Control.SetErrorHandler("Get_Employee_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.sSql.Declare(String)
+
+F.Intrinsic.String.Build("select distinct b.employee, name from v_employee_mstr a join v_pay_hist_earn b on a.employee = b.employee where date_history between '{0}' and '{1}' order by b.employee",v.Global.dStart.PervasiveDate,v.Global.dEnd.PervasiveDate,V.Local.sSql)
+
+F.ODBC.Connection!conx.OpenLocalRecordsetRW("rstHdr",V.Local.sSql)
+F.Intrinsic.Variable.LoadUDTFromRecordset("conx","rstHdr","V.uGlobal.uHdr",False,0)
+F.ODBC.conx!rstHdr.Close
+
+F.Intrinsic.String.Build("Select distinct employee from v_pay_hist_ded where pay_history_seq = '00' and date_history between '{0}' and '{1}' order by employee",v.Global.dStart.PervasiveDate,v.Global.dEnd.PervasiveDate,V.Local.sSql)
+
+F.ODBC.Connection!conx.OpenLocalRecordsetRW("rstEmp",V.Local.sSql)
+F.Intrinsic.Variable.LoadUDTFromRecordset("conx","rstEmp","V.uGlobal.uEmp",False,0)
+F.ODBC.conx!rstEmp.Close
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Get_Employee_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: BIR_PY_Summary_Date.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(Ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Get_Employee.End
+
+Program.Sub.Build_UDTs.Start
+F.Intrinsic.Control.SetErrorHandler("Build_UDTs_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+V.Local.i.Declare(Long)
+V.Local.iC.Declare(Long)
+V.Local.i1.Declare(Long)
+V.Local.iP.Declare(Long)
+V.Local.iG.Declare(Long)
+V.Local.iT.Declare(Long)
+V.Local.iDedCount.Declare(Long)
+V.Local.iTaxCount.Declare(Long)
+V.Local.iPreCount.Declare(Long)
+V.Local.iGranCount.Declare(Long)
+v.Local.sT.Declare(String)
+
+F.Intrinsic.Control.For(V.Local.i,0,V.uGlobal.uEmp.UBound,1)
+	F.Intrinsic.Control.For(V.Local.iC,0,V.uGlobal.uDeduction.UBound,1)
+		F.Intrinsic.Control.If(V.uGlobal.uEmp(V.Local.i)!sEmployee,=,V.uGlobal.uDeduction(V.Local.iC)!sEmployee)
+			F.Intrinsic.Control.For(V.Local.i1,0,21,1)
+				F.Intrinsic.Control.If(V.uGlobal.uAllD.UBound,=,-1)
+					V.uGlobal.uAllD.Redim(0,0)
+					V.Local.iDedCount.Set(0)
+
+				F.Intrinsic.Control.Else
+					F.Intrinsic.Math.Add(V.uGlobal.uAllD.UBound,1,V.Local.iDedCount)
+					V.uGlobal.uAllD.RedimPreserve(0,V.Local.iDedCount)
+				F.Intrinsic.Control.EndIf
+
+				F.Intrinsic.Control.SelectCase(V.Local.i1)
+
+					F.Intrinsic.Control.Case(0)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed1!sDeductions1)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_1)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(1)
+
+					F.Intrinsic.Control.Case(1)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed1!sDeductions2)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_2)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(2)
+
+					F.Intrinsic.Control.Case(2)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed1!sDeductions3)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_3)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(3)
+
+					F.Intrinsic.Control.Case(3)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed1!sDeductions4)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_4)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(4)
+
+					F.Intrinsic.Control.Case(4)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed1!sDeductions5)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_5)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(5)
+
+					F.Intrinsic.Control.Case(5)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed6!sDeductions1)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_6)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(6)
+
+					F.Intrinsic.Control.Case(6)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed6!sDeductions2)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_7)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(7)
+
+					F.Intrinsic.Control.Case(7)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed6!sDeductions3)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_8)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(8)
+
+					F.Intrinsic.Control.Case(8)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed6!sDeductions4)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_9)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(9)
+
+					F.Intrinsic.Control.Case(9)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed6!sDeductions5)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_10)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(10)
+
+					F.Intrinsic.Control.Case(10)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed11!sDeductions1)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_11)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(11)
+
+					F.Intrinsic.Control.Case(11)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed11!sDeductions2)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_12)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(12)
+
+					F.Intrinsic.Control.Case(12)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed11!sDeductions3)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_13)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(13)
+
+					F.Intrinsic.Control.Case(13)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed11!sDeductions4)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_14)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(14)
+
+					F.Intrinsic.Control.Case(14)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed11!sDeductions5)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_15)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(15)
+
+					F.Intrinsic.Control.Case(15)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed16!sDeductions1)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_16)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(16)
+
+					F.Intrinsic.Control.Case(16)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed16!sDeductions2)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_17)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(17)
+
+					F.Intrinsic.Control.Case(17)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed16!sDeductions3)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_18)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(18)
+
+					F.Intrinsic.Control.Case(18)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed16!sDeductions4)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_19)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(19)
+
+					F.Intrinsic.Control.Case(19)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDed16!sDeductions5)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_20)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(20)
+
+					F.Intrinsic.Control.Case(20)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDeds!sDeductions1)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_21)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(21)
+
+					F.Intrinsic.Control.Case(21)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllD(V.Local.iDedCount)!sDeduction.Set(V.uGlobal.uDeds!sDeductions2)
+						V.uGlobal.uAllD(V.Local.iDedCount)!fAmount.Set(V.uGlobal.uDeduction(V.Local.iC)!fDeduct_22)
+						V.uGlobal.uAllD(V.Local.iDedCount)!lType.Set(22)
+
+				F.Intrinsic.Control.EndSelect
+			F.Intrinsic.Control.Next(V.Local.i1)
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.Next(V.Local.iC)
+
+	V.Local.i1.Set(0)
+	F.Intrinsic.Control.For(V.Local.iP,0,V.uGlobal.uPreTax.UBound,1)
+		F.Intrinsic.Control.If(V.uGlobal.uEmp(V.Local.i)!sEmployee,=,V.uGlobal.uPreTax(V.Local.iP)!sEmployee)
+			F.Intrinsic.Control.For(V.Local.i1,0,10,1)
+				F.Intrinsic.Control.If(V.uGlobal.uAllP.UBound,=,-1)
+					V.uGlobal.uAllP.Redim(0,0)
+					V.Local.iPreCount.Set(0)
+
+				F.Intrinsic.Control.Else
+					F.Intrinsic.Math.Add(V.uGlobal.uAllP.UBound,1,V.Local.iPreCount)
+					V.uGlobal.uAllP.RedimPreserve(0,V.Local.iPreCount)
+				F.Intrinsic.Control.EndIf
+
+				F.Intrinsic.Control.SelectCase(V.Local.i1)
+
+					F.Intrinsic.Control.Case(0)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sPreTax.Set(V.uGlobal.uPreTax1!sDeductions1)
+						V.uGlobal.uAllP(V.Local.iPreCount)!fAmount.Set(V.uGlobal.uPreTax(V.Local.iP)!fPre_Tax_Deduct_1)
+						V.uGlobal.uAllP(V.Local.iPreCount)!lType.Set(1)
+
+					F.Intrinsic.Control.Case(1)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sPreTax.Set(V.uGlobal.uPreTax1!sDeductions2)
+						V.uGlobal.uAllP(V.Local.iPreCount)!fAmount.Set(V.uGlobal.uPreTax(V.Local.iP)!fPre_Tax_Deduct_2)
+						V.uGlobal.uAllP(V.Local.iPreCount)!lType.Set(2)
+
+					F.Intrinsic.Control.Case(2)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sPreTax.Set(V.uGlobal.uPreTax1!sDeductions3)
+						V.uGlobal.uAllP(V.Local.iPreCount)!fAmount.Set(V.uGlobal.uPreTax(V.Local.iP)!fPre_Tax_Deduct_3)
+						V.uGlobal.uAllP(V.Local.iPreCount)!lType.Set(3)
+
+					F.Intrinsic.Control.Case(3)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sPreTax.Set(V.uGlobal.uPreTax1!sDeductions4)
+						V.uGlobal.uAllP(V.Local.iPreCount)!fAmount.Set(V.uGlobal.uPreTax(V.Local.iP)!fPre_Tax_Deduct_4)
+						V.uGlobal.uAllP(V.Local.iPreCount)!lType.Set(4)
+
+					F.Intrinsic.Control.Case(4)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sPreTax.Set(V.uGlobal.uPreTax1!sDeductions5)
+						V.uGlobal.uAllP(V.Local.iPreCount)!fAmount.Set(V.uGlobal.uPreTax(V.Local.iP)!fPre_Tax_Deduct_5)
+						V.uGlobal.uAllP(V.Local.iPreCount)!lType.Set(5)
+
+					F.Intrinsic.Control.Case(5)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sPreTax.Set(V.uGlobal.uPreTax2!sDeductions1)
+						V.uGlobal.uAllP(V.Local.iPreCount)!fAmount.Set(V.uGlobal.uPreTax(V.Local.iP)!fPre_Tax_Deduct_6)
+						V.uGlobal.uAllP(V.Local.iPreCount)!lType.Set(6)
+
+					F.Intrinsic.Control.Case(6)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sPreTax.Set(V.uGlobal.uPreTax2!sDeductions2)
+						V.uGlobal.uAllP(V.Local.iPreCount)!fAmount.Set(V.uGlobal.uPreTax(V.Local.iP)!fPre_Tax_Deduct_7)
+						V.uGlobal.uAllP(V.Local.iPreCount)!lType.Set(7)
+
+					F.Intrinsic.Control.Case(7)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sPreTax.Set(V.uGlobal.uPreTax2!sDeductions3)
+						V.uGlobal.uAllP(V.Local.iPreCount)!fAmount.Set(V.uGlobal.uPreTax(V.Local.iP)!fPre_Tax_Deduct_8)
+						V.uGlobal.uAllP(V.Local.iPreCount)!lType.Set(8)
+
+					F.Intrinsic.Control.Case(8)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sPreTax.Set(V.uGlobal.uPreTax2!sDeductions4)
+						V.uGlobal.uAllP(V.Local.iPreCount)!fAmount.Set(V.uGlobal.uPreTax(V.Local.iP)!fPre_Tax_Deduct_9)
+						V.uGlobal.uAllP(V.Local.iPreCount)!lType.Set(9)
+
+					F.Intrinsic.Control.Case(9)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sPreTax.Set(V.uGlobal.uPreTax2!sDeductions5)
+						V.uGlobal.uAllP(V.Local.iPreCount)!fAmount.Set(V.uGlobal.uPreTax(V.Local.iP)!fPre_Tax_Deduct_10)
+						V.uGlobal.uAllP(V.Local.iPreCount)!lType.Set(10)
+				
+					F.Intrinsic.Control.Case(10)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllP(V.Local.iPreCount)!sPreTax.Set("401K")
+						V.uGlobal.uAllP(V.Local.iPreCount)!fAmount.Set(V.uGlobal.uPreTax(V.Local.iP)!fIra_Amount)
+						V.uGlobal.uAllP(V.Local.iPreCount)!lType.Set(11)
+
+				F.Intrinsic.Control.EndSelect
+			F.Intrinsic.Control.Next(V.Local.i1)
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.Next(V.Local.iP)
+
+	V.Local.i1.Set(0)
+	F.Intrinsic.Control.For(V.Local.iG,0,V.uGlobal.uGarnish.UBound,1)
+		F.Intrinsic.Control.If(V.uGlobal.uEmp(V.Local.i)!sEmployee,=,V.uGlobal.uGarnish(V.Local.iG)!sEmployee)
+			F.Intrinsic.Control.For(V.Local.i1,0,4,1)
+				F.Intrinsic.Control.If(V.uGlobal.uAllG.UBound,=,-1)
+					V.uGlobal.uAllG.Redim(0,0)
+					V.Local.iGranCount.Set(0)
+
+				F.Intrinsic.Control.Else
+					F.Intrinsic.Math.Add(V.uGlobal.uAllG.UBound,1,V.Local.iGranCount)
+					V.uGlobal.uAllG.RedimPreserve(0,V.Local.iGranCount)
+				F.Intrinsic.Control.EndIf
+
+				F.Intrinsic.Control.SelectCase(V.Local.i1)
+
+					F.Intrinsic.Control.Case(0)
+						V.uGlobal.uAllG(V.Local.iGranCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllG(V.Local.iGranCount)!sGarnish.Set(V.uGlobal.uGarn!sDeductions1)
+						V.uGlobal.uAllG(V.Local.iGranCount)!fAmount.Set(V.uGlobal.uGarnish(V.Local.iG)!fGarn_1)
+						V.uGlobal.uAllG(V.Local.iGranCount)!lType.Set(1)
+
+					F.Intrinsic.Control.Case(1)
+						V.uGlobal.uAllG(V.Local.iGranCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllG(V.Local.iGranCount)!sGarnish.Set(V.uGlobal.uGarn!sDeductions2)
+						V.uGlobal.uAllG(V.Local.iGranCount)!fAmount.Set(V.uGlobal.uGarnish(V.Local.iG)!fGarn_2)
+						V.uGlobal.uAllG(V.Local.iGranCount)!lType.Set(2)
+
+					F.Intrinsic.Control.Case(2)
+						V.uGlobal.uAllG(V.Local.iGranCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllG(V.Local.iGranCount)!sGarnish.Set(V.uGlobal.uGarn!sDeductions3)
+						V.uGlobal.uAllG(V.Local.iGranCount)!fAmount.Set(V.uGlobal.uGarnish(V.Local.iG)!fGarn_3)
+						V.uGlobal.uAllG(V.Local.iGranCount)!lType.Set(3)
+
+					F.Intrinsic.Control.Case(3)
+						V.uGlobal.uAllG(V.Local.iGranCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllG(V.Local.iGranCount)!sGarnish.Set(V.uGlobal.uGarn!sDeductions4)
+						V.uGlobal.uAllG(V.Local.iGranCount)!fAmount.Set(V.uGlobal.uGarnish(V.Local.iG)!fGarn_4)
+						V.uGlobal.uAllG(V.Local.iGranCount)!lType.Set(4)
+
+					F.Intrinsic.Control.Case(4)
+						V.uGlobal.uAllG(V.Local.iGranCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllG(V.Local.iGranCount)!sGarnish.Set(V.uGlobal.uGarn!sDeductions5)
+						V.uGlobal.uAllG(V.Local.iGranCount)!fAmount.Set(V.uGlobal.uGarnish(V.Local.iG)!fGarn_5)
+						V.uGlobal.uAllG(V.Local.iGranCount)!lType.Set(5)
+
+				F.Intrinsic.Control.EndSelect
+			F.Intrinsic.Control.Next(V.Local.i1)
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.Next(V.Local.iG)
+
+	V.Local.i1.Set(0)
+	F.Intrinsic.Control.For(V.Local.iT,0,V.uGlobal.uTaxes.UBound,1)
+		F.Intrinsic.Control.If(V.uGlobal.uEmp(V.Local.i)!sEmployee,=,V.uGlobal.uTaxes(V.Local.iT)!sEmployee)
+			F.Intrinsic.Control.For(V.Local.i1,0,5,1)
+				F.Intrinsic.Control.If(V.uGlobal.uAllT.UBound,=,-1)
+					V.uGlobal.uAllT.Redim(0,0)
+					V.Local.iTaxCount.Set(0)
+
+				F.Intrinsic.Control.Else
+					F.Intrinsic.Math.Add(V.uGlobal.uAllT.UBound,1,V.Local.iTaxCount)
+					V.uGlobal.uAllT.RedimPreserve(0,V.Local.iTaxCount)
+				F.Intrinsic.Control.EndIf
+
+				F.Intrinsic.Control.SelectCase(V.Local.i1)
+
+					F.Intrinsic.Control.Case(0)
+						V.uGlobal.uAllT(V.Local.iTaxCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllT(V.Local.iTaxCount)!sTax.Set("Federal")
+						V.uGlobal.uAllT(V.Local.iTaxCount)!fAmount.Set(V.uGlobal.uTaxes(V.Local.iT)!fFederal)
+						V.uGlobal.uAllT(V.Local.iTaxCount)!lType.Set(1)
+
+					F.Intrinsic.Control.Case(1)						
+						V.uGlobal.uAllT(V.Local.iTaxCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						F.Intrinsic.String.Build("{0} State",v.uGlobal.uTaxes(v.Local.iT)!sStateCode,v.Local.sT)
+						V.uGlobal.uAllT(V.Local.iTaxCount)!sTax.Set(v.Local.sT)
+						V.uGlobal.uAllT(V.Local.iTaxCount)!fAmount.Set(V.uGlobal.uTaxes(V.Local.iT)!fState)
+						V.uGlobal.uAllT(V.Local.iTaxCount)!lType.Set(4)
+					F.Intrinsic.Control.Case(2)
+						V.uGlobal.uAllT(V.Local.iTaxCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						F.Intrinsic.String.Build("{0} Other Tax",v.uGlobal.uTaxes(v.Local.iT)!slocal1Code,v.Local.sT)
+						V.uGlobal.uAllT(V.Local.iTaxCount)!sTax.Set(v.Local.sT)
+						V.uGlobal.uAllT(V.Local.iTaxCount)!fAmount.Set(V.uGlobal.uTaxes(V.Local.iT)!fLocal1)
+						V.uGlobal.uAllT(V.Local.iTaxCount)!lType.Set(5)
+					F.Intrinsic.Control.Case(3)
+						V.uGlobal.uAllT(V.Local.iTaxCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllT(V.Local.iTaxCount)!sTax.Set("FICA")
+						V.uGlobal.uAllT(V.Local.iTaxCount)!fAmount.Set(V.uGlobal.uTaxes(V.Local.iT)!fFica)
+						V.uGlobal.uAllT(V.Local.iTaxCount)!lType.Set(2)
+
+					F.Intrinsic.Control.Case(4)
+						V.uGlobal.uAllT(V.Local.iTaxCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						V.uGlobal.uAllT(V.Local.iTaxCount)!sTax.Set("Medicare")
+						V.uGlobal.uAllT(V.Local.iTaxCount)!fAmount.Set(V.uGlobal.uTaxes(V.Local.iT)!fMedi)
+						V.uGlobal.uAllT(V.Local.iTaxCount)!lType.Set(3)
+					f.Intrinsic.Control.Case(5) 
+						V.uGlobal.uAllT(V.Local.iTaxCount)!sEmployee.Set(V.uGlobal.uEmp(V.Local.i)!sEmployee)
+						F.Intrinsic.String.Build("{0} Other Tax",v.uGlobal.uTaxes(v.Local.iT)!slocal2Code,v.Local.sT)
+						V.uGlobal.uAllT(V.Local.iTaxCount)!sTax.Set(v.Local.sT)
+						V.uGlobal.uAllT(V.Local.iTaxCount)!fAmount.Set(V.uGlobal.uTaxes(V.Local.iT)!fLocal2)
+						V.uGlobal.uAllT(V.Local.iTaxCount)!lType.Set(6)	
+				F.Intrinsic.Control.EndSelect
+			F.Intrinsic.Control.Next(V.Local.i1)
+		F.Intrinsic.Control.EndIf
+	F.Intrinsic.Control.Next(V.Local.iT)
+F.Intrinsic.Control.Next(V.Local.i)
+
+F.Intrinsic.Variable.UDTMultiFlag(V.uGlobal.uAllD!sEmployee,"")
+F.Intrinsic.Variable.UDTMultiFlag(V.uGlobal.uAllG!sEmployee,"")
+F.Intrinsic.Variable.UDTMultiFlag(V.uGlobal.uAllP!sEmployee,"")
+F.Intrinsic.Variable.UDTMultiFlag(V.uGlobal.uAllT!sEmployee,"")
+
+F.Intrinsic.Variable.UDTDeleteFlagged(V.uGlobal.uAllD)
+F.Intrinsic.Variable.UDTDeleteFlagged(V.uGlobal.uAllG)
+F.Intrinsic.Variable.UDTDeleteFlagged(V.uGlobal.uAllP)
+F.Intrinsic.Variable.UDTDeleteFlagged(V.uGlobal.uAllT)
+
+'populate the descriptions into each one. 
+F.Intrinsic.Control.For(v.Local.i,0,v.uGlobal.uDedCodeDesc.UBound,1) 
+	F.Intrinsic.Variable.UDTMultiSeekSet(v.uGlobal.uAllD!lType,v.uGlobal.uDedCodeDesc(v.Local.i)!iCode,v.uGlobal.uAllD!sDeduction,v.uGlobal.uDedCodeDesc(v.Local.i)!sDescr)
+F.Intrinsic.Control.Next(v.Local.i)
+
+F.Intrinsic.Control.For(v.Local.i,0,v.uGlobal.uGarnDesc.UBound,1) 
+	F.Intrinsic.Variable.UDTMultiSeekSet(v.uGlobal.uAllG!lType,v.uGlobal.uGarndesc(v.Local.i)!iCode,v.uGlobal.uAllG!sGarnish,v.uGlobal.uGarnDesc(v.Local.i)!sDescr)
+F.Intrinsic.Control.Next(v.Local.i)
+
+F.Intrinsic.Control.For(v.Local.i,0,v.uGlobal.uPreTaxDesc.UBound,1) 
+	F.Intrinsic.Variable.UDTMultiSeekSet(v.uGlobal.uAllP!lType,v.uGlobal.uPreTaxDesc(v.Local.i)!iCode,v.uGlobal.uAllP!sPreTax,v.uGlobal.uPreTaxDesc(v.Local.i)!sDescr)
+F.Intrinsic.Control.Next(v.Local.i)
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Build_UDTs_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: BIR_PY_Summary_Date.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	Function.Intrinsic.Control.CallSub(ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Build_UDTs.End
+
+Program.Sub.Add_RunID.Start
+F.Intrinsic.Control.SetErrorHandler("Add_RunID_Err")
+F.Intrinsic.Control.ClearErrors
+
+V.Local.sError.Declare(String)
+
+F.Intrinsic.Control.If(V.uGlobal.uHdr.UBound,<>,-1)
+	'set BIRunID in UDTs
+	F.Intrinsic.Variable.UDTSetMemberValue(V.uGlobal.uHdr!lBIRunID,V.Global.lBIRunID)
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uHdr!lBIRunID,"BIRunID")
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.If(V.uGlobal.uEarnings1.UBound,<>,-1)
+	'set BIRunID in UDTs
+	F.Intrinsic.Variable.UDTSetMemberValue(V.uGlobal.uEarnings1!lBIRunID,V.Global.lBIRunID)
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uEarnings1!lBIRunID,"BIRunID")
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.If(V.uGlobal.uEarnings2.UBound,<>,-1)
+	F.Intrinsic.Variable.UDTSetMemberValue(V.uGlobal.uEarnings2!lBIRunID,V.Global.lBIRunID)
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uEarnings2!lBIRunID,"BIRunID")
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.If(V.uGlobal.uAllD.UBound,<>,-1)
+	F.Intrinsic.Variable.UDTSetMemberValue(V.uGlobal.uAllD!lBIRunID,V.Global.lBIRunID)
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllD!lBIRunID,"BIRunID")
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllD!fAmount,"Amount")
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllD!sDeduction,"Deduction")
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllD!sEmployee,"Employee")
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllD!lType,"Type")
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.If(V.uGlobal.uAllG.UBound,<>,-1)
+	F.Intrinsic.Variable.UDTSetMemberValue(V.uGlobal.uAllG!lBIRunID,V.Global.lBIRunID)
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllG!lBIRunID,"BIRunID")
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllG!fAmount,"Amount")
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllG!sEmployee,"Employee")
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllG!sGarnish,"Garnish")
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllG!lType,"Type")
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.If(V.uGlobal.uAllP.UBound,<>,-1)
+	F.Intrinsic.Variable.UDTSetMemberValue(V.uGlobal.uAllP!lBIRunID,V.Global.lBIRunID)
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllP!lBIRunID,"BIRunID")
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllP!fAmount,"Amount")
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllP!sEmployee,"Employee")
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllP!sPreTax,"PreTax")
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllP!lType,"Type")
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.If(V.uGlobal.uAllT.UBound,<>,-1)
+	F.Intrinsic.Variable.UDTSetMemberValue(V.uGlobal.uAllT!lBIRunID,V.Global.lBIRunID)
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllT!lBIRunID,"BIRunID")
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllT!fAmount,"Amount")
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllT!sEmployee,"Employee")
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllT!sTax,"Tax")
+	F.Intrinsic.Variable.SetUDTFieldReference(V.uGlobal.uAllT!lType,"Type")
+F.Intrinsic.Control.EndIf
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("Add_RunID_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: BIR_PY_Summary_Date.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(Ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+Program.Sub.Add_RunID.End
+
+Program.Sub.WriteZfile.Start
+F.Intrinsic.Control.SetErrorHandler("WriteZfile_Err")
+F.Intrinsic.Control.ClearErrors
+V.Local.sError.Declare(String)
+'open z tables
+F.ODBC.Connection!conx.OpenLocalRecordsetRW("rstzHdr","Z_PY_SUMM_HDR")
+	F.Intrinsic.Control.If(V.uGlobal.uHdr.UBound,<>,-1)
+		F.Intrinsic.Variable.SaveUDTToRecordSet("conx","rstzHdr","V.uGlobal.uHdr")
+	F.Intrinsic.Control.EndIf
+F.ODBC.conx!rstzHdr.Close
+
+F.Intrinsic.Variable.SetUDTFieldReference(v.uGlobal.uEarnings1!EC_Desc,"EC_Desc")
+F.ODBC.Connection!conx.OpenLocalRecordsetRW("rstzEarn1","Z_PY_SUMM_EARNINGS_1")
+	F.Intrinsic.Control.If(V.uGlobal.uEarnings1.UBound,<>,-1)
+		F.Intrinsic.Variable.SaveUDTToRecordSet("conx","rstzEarn1","V.uGlobal.uEarnings1")
+	F.Intrinsic.Control.EndIf
+F.ODBC.conx!rstzEarn1.Close
+
+F.Intrinsic.Variable.SetUDTFieldReference(v.uGlobal.uEarnings2!EC_Desc,"EC_Desc")
+F.ODBC.Connection!conx.OpenLocalRecordsetRW("rstzEarn2","Z_PY_SUMM_EARNINGS_2")
+	F.Intrinsic.Control.If(V.uGlobal.uEarnings2.UBound,<>,-1)
+		F.Intrinsic.Variable.SaveUDTToRecordSet("conx","rstzEarn2","V.uGlobal.uEarnings2")
+	F.Intrinsic.Control.EndIf
+F.ODBC.conx!rstzEarn2.Close
+
+F.ODBC.Connection!conx.OpenLocalRecordsetRW("rstzDed","Z_PY_SUMM_DEDUCTIONS")
+	F.Intrinsic.Control.If(V.uGlobal.uAllD.UBound,<>,-1)
+		F.Intrinsic.Variable.SaveUDTToRecordSet("conx","rstzDed","V.uGlobal.uAllD")
+	F.Intrinsic.Control.EndIf
+F.ODBC.conx!rstzDed.Close
+
+F.ODBC.Connection!conx.OpenLocalRecordsetRW("rstzGarn","Z_PY_SUMM_GARN")
+	F.Intrinsic.Control.If(V.uGlobal.uAllG.UBound,<>,-1)
+		F.Intrinsic.Variable.SaveUDTToRecordSet("conx","rstzGarn","V.uGlobal.uAllG")
+	F.Intrinsic.Control.EndIf
+F.ODBC.conx!rstzGarn.Close
+
+F.ODBC.Connection!conx.OpenLocalRecordsetRW("rstzPreTax","Z_PY_SUMM_PRETAX")
+	F.Intrinsic.Control.If(V.uGlobal.uAllP.UBound,<>,-1)
+		F.Intrinsic.Variable.SaveUDTToRecordSet("conx","rstzPreTax","V.uGlobal.uAllP")
+	F.Intrinsic.Control.EndIf
+F.ODBC.conx!rstzPreTax.Close
+
+F.ODBC.Connection!conx.OpenLocalRecordsetRW("rstzTax","Z_PY_SUMM_TAX")
+	F.Intrinsic.Control.If(V.uGlobal.uAllT.UBound,<>,-1)
+		F.Intrinsic.Variable.SaveUDTToRecordSet("conx","rstzTax","V.uGlobal.uAllT")
+	F.Intrinsic.Control.EndIf
+F.ODBC.conx!rstzTax.Close
+
+F.Intrinsic.Control.ExitSub
+
+F.Intrinsic.Control.Label("WriteZfile_Err")
+F.Intrinsic.Control.If(V.Ambient.ErrorNumber,<>,0)
+	Function.Intrinsic.String.Concat("Project: BIR_PY_Summary_Date.gas",V.Ambient.Newline,V.Ambient.Newline,"Subroutine: ",V.Ambient.CurrentSubroutine,V.Ambient.NewLine,"Error Occurred ",V.Ambient.ErrorNumber," with description ",V.Ambient.ErrorDescription,V.Local.sError)
+	F.Intrinsic.UI.Msgbox(V.Local.sError)
+	F.Intrinsic.Control.CallSub(Ss_form1_unload)
+Function.Intrinsic.Control.EndIf
+Program.Sub.WriteZfile.End
+
+Program.Sub.Comments.Start
+${$0$}$BIR_PY_Payroll_Summary_Empl$}$RLK$}$07/13/2015$}$False
+${$3$}$0$}$$}$-1$}$-1$}$$}$01/01/1900$}$Project start date 7/13/2015
+
+'create GAB script to go along with Crystal
+Program.Sub.Comments.End
+
+Program.Sub.ScreenSS.Start
+SS_Form1{{CAPTION::Payroll Summary by Date
+SS_Form1.CTRL{{NAME::dtp1_Date\\TYPE::6\\CAPTION::Pay Date\\TABSTOP::1\\GROUP::-1\\BROWSER::0\\INTL::421406\\SIZE::1
+SS_Form1.CTRL{{NAME::cmd1_Print\\TYPE::5\\CAPTION::Print\\TABSTOP::2\\GROUP::-1\\BROWSER::0\\INTL::452800\\SIZE::1
+
+Program.Sub.ScreenSS.End
